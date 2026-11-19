@@ -1,0 +1,687 @@
+/* ==========================================================================
+   1. Design tokens & theme (general)
+   ========================================================================== */
+
+:root {
+	--color-bg: #fbf8f1;
+	--color-paper: #fff;
+	--color-ink: #1c1633;
+	--color-muted: #5e5877;
+	--color-line: #e2dccb;
+	--color-violet: #5b3fd6;
+	--color-lime: #d8f25b;
+	--color-coral: #ff7a66;
+	--color-button: #5b3fd6;
+
+	--radius-pill: 99px;
+	--radius-card: 20px;
+	--radius-input: 12px;
+
+	--max-width: 1120px;
+
+	--parallax-x: 0;
+	--parallax-y: 0;
+
+	padding-top: env(safe-area-inset-top, 0);
+	padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		--color-bg: #15112b;
+		--color-paper: #1e1940;
+		--color-ink: #f4f0ff;
+		--color-muted: #b3abd6;
+		--color-line: #322b5c;
+		--color-violet: #a596ff;
+	}
+}
+
+[data-theme="dark"] {
+	--color-bg: #15112b;
+	--color-paper: #1e1940;
+	--color-ink: #f4f0ff;
+	--color-muted: #b3abd6;
+	--color-line: #322b5c;
+	--color-violet: #a596ff;
+}
+
+/* ==========================================================================
+   2. Reset & general
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-padding-top: env(safe-area-inset-top, 0);
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-ink);
+	font: 400 17px/1.65 Inter, system-ui, sans-serif;
+}
+
+.container {
+	max-width: var(--max-width);
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+h1,
+h2 {
+	font-family: Unbounded, Impact, sans-serif;
+	font-weight: 800;
+	margin: 0;
+}
+
+h2 {
+	font-size: clamp(30px, 5vw, 54px);
+	line-height: 1.02;
+	letter-spacing: -0.03em;
+}
+
+/* Shared focus style for interactive elements */
+:where(.button, summary, input, select):focus-visible {
+	outline: 3px solid var(--color-coral);
+	outline-offset: 3px;
+}
+
+/* ==========================================================================
+   3. Header
+   ========================================================================== */
+
+.site-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 0;
+}
+
+.site-header .brand {
+	font: 800 18px/1 Unbounded, sans-serif;
+	letter-spacing: -0.02em;
+}
+
+/* ==========================================================================
+   4. Buttons
+   ========================================================================== */
+
+.button {
+	display: inline-block;
+	font: 600 16px/1 Inter, sans-serif;
+	background: var(--color-button);
+	color: #fff;
+	border: 0;
+	border-radius: var(--radius-pill);
+	padding: 17px 28px;
+	cursor: pointer;
+	text-decoration: none;
+	box-shadow: 4px 4px 0 var(--color-lime);
+	transition: box-shadow 0.12s;
+}
+
+.button:hover {
+	box-shadow: 7px 7px 0 var(--color-lime);
+}
+
+.button:active {
+	box-shadow: 0 0 0 var(--color-lime);
+}
+
+.button--small {
+	padding: 12px 20px;
+	font-size: 15px;
+}
+
+/* ==========================================================================
+   5. Hero
+   ========================================================================== */
+
+.hero {
+	display: grid;
+	grid-template-columns: 1.25fr 1fr;
+	gap: 40px;
+	align-items: center;
+	padding: clamp(24px, 6vw, 72px) 0 clamp(64px, 10vw, 128px);
+}
+
+.hero .headline {
+	position: relative;
+	display: inline-block;
+	font: 800 clamp(50px, 11vw, 124px)/0.9 Unbounded, Impact, sans-serif;
+	letter-spacing: -0.045em;
+	margin: 0;
+}
+
+.hero .headline__layer {
+	display: block;
+}
+
+.hero .headline__layer--offset {
+	position: absolute;
+	inset: 0;
+	color: var(--color-lime);
+	transform: translate(5px, 4px);
+	transition: transform 0.9s cubic-bezier(0.2, 1.25, 0.3, 1);
+}
+
+.hero .headline__layer--front {
+	position: relative;
+	color: var(--color-violet);
+}
+
+.js .hero .headline:not(.is-revealed) .headline__layer--offset {
+	transform: translate(30px, 24px);
+}
+
+.hero .headline:hover .headline__layer--offset {
+	transform: translate(9px, 7px);
+	transition-duration: 0.25s;
+}
+
+.hero .lead {
+	font-size: clamp(18px, 2.2vw, 22px);
+	line-height: 1.5;
+	max-width: 30em;
+	margin: 32px 0 0;
+}
+
+.hero .hero-facts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 28px;
+	margin: 24px 0 0;
+	padding: 0;
+	list-style: none;
+	font-weight: 500;
+}
+
+.hero .hero-facts li {
+	padding-left: 18px;
+	position: relative;
+}
+
+.hero .hero-facts li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.6em;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--color-coral);
+}
+
+.hero .hero-cta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 20px 28px;
+	margin-top: 40px;
+}
+
+.hero .seat-status {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	font-size: 15px;
+	color: var(--color-muted);
+}
+
+.hero .seat-indicators {
+	display: flex;
+	gap: 4px;
+}
+
+.hero .seat {
+	width: 12px;
+	height: 36px;
+	border-radius: 6px;
+	background: var(--color-ink);
+	transition: background 0.5s, transform 0.5s;
+}
+
+.hero .seat--empty {
+	background: var(--color-line);
+}
+
+.hero .hero-art {
+	width: 100%;
+	max-width: 420px;
+	justify-self: center;
+	overflow: visible;
+}
+
+.hero .hero-paper {
+	transform-origin: 200px 250px;
+	animation: stamp 0.55s 0.95s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+@keyframes stamp {
+	from {
+		opacity: 0;
+		transform: translateY(-18px) scale(1.05) rotate(3deg);
+	}
+	to {
+		opacity: 1;
+		transform: rotate(3deg);
+	}
+}
+
+/* ==========================================================================
+   5b. Hero parallax (mouse-driven)
+   ========================================================================== */
+
+.hero .parallax__text {
+	display: inline-block;
+	transform: translate(calc(var(--parallax-x) * 0.1), calc(var(--parallax-y) * 0.1));
+	transition: transform 0.1s ease-out;
+	will-change: transform;
+}
+
+.hero .headline__layer--offset .parallax__text {
+	transform: translate(calc(var(--parallax-x) * 0.12), calc(var(--parallax-y) * 0.12));
+}
+
+.hero .headline__layer--front .parallax__text {
+	transform: translate(calc(var(--parallax-x) * -0.06), calc(var(--parallax-y) * -0.06));
+}
+
+.hero .hero-art {
+	transform: translate(calc(var(--parallax-x) * 0.04), calc(var(--parallax-y) * 0.04));
+	transition: transform 0.1s ease-out;
+	will-change: transform;
+}
+
+/* .hero .hero-paper is intentionally excluded from parallax translate:
+   the stamp animation (section 5) already owns its `transform` property.
+   Adding parallax `translate` here would override the animation's final
+   rotate(3deg) state. */
+
+@media (prefers-reduced-motion: reduce) {
+	.hero .parallax__text,
+	.hero .hero-art {
+		transform: none !important;
+		transition: none !important;
+	}
+}
+
+/* ==========================================================================
+   6. Schedule
+   ========================================================================== */
+
+.schedule {
+	padding: clamp(64px, 10vw, 128px) 0;
+	border-top: 1px solid var(--color-line);
+}
+
+.schedule .schedule-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(32px, 6vw, 80px);
+	margin-top: 48px;
+}
+
+.schedule .schedule-day h3 {
+	font: 600 15px/1 Inter, sans-serif;
+	color: var(--color-muted);
+	margin: 0 0 8px;
+}
+
+.schedule .schedule-day ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.schedule .schedule-day li {
+	display: grid;
+	grid-template-columns: 64px 1fr;
+	gap: 16px;
+	padding: 18px 0;
+	border-top: 1px solid var(--color-line);
+}
+
+.schedule .schedule-day time {
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	color: var(--color-violet);
+}
+
+.schedule .schedule-day b {
+	display: block;
+	font-weight: 600;
+}
+
+.schedule .schedule-day span {
+	color: var(--color-muted);
+	font-size: 15.5px;
+}
+
+.schedule .schedule-note {
+	margin: 40px 0 0;
+	max-width: 36em;
+	color: var(--color-muted);
+}
+
+/* ==========================================================================
+   7. Teacher
+   ========================================================================== */
+
+.teacher {
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	gap: clamp(32px, 6vw, 80px);
+	align-items: end;
+}
+
+.teacher blockquote {
+	margin: 0;
+	font: 800 clamp(26px, 4vw, 44px)/1.1 Unbounded, sans-serif;
+	letter-spacing: -0.03em;
+}
+
+.teacher blockquote em {
+	font-style: normal;
+	color: var(--color-violet);
+}
+
+.teacher p {
+	margin: 0;
+	color: var(--color-muted);
+}
+
+.teacher strong {
+	color: var(--color-ink);
+}
+
+/* ==========================================================================
+   8. Booking & ticket
+   ========================================================================== */
+
+.ticket-card {
+	position: relative;
+	display: grid;
+	grid-template-columns: 1fr 230px;
+	margin-top: 48px;
+	background: var(--color-ink);
+	color: var(--color-bg);
+	border-radius: var(--radius-card);
+}
+
+.ticket-card.is-submitted .booking-success {
+	display: block;
+}
+
+.ticket-card.is-submitted form {
+	display: none;
+}
+
+.ticket-card .booking-form {
+	padding: clamp(24px, 4vw, 44px);
+}
+
+.ticket-card .booking-form h2 {
+	color: var(--color-bg);
+	font-size: clamp(26px, 3.6vw, 38px);
+	margin-bottom: 24px;
+}
+
+.ticket-card .booking-form label {
+	display: block;
+	font-weight: 500;
+	font-size: 15px;
+	margin: 0 0 16px;
+}
+
+.ticket-card .booking-form input,
+.ticket-card .booking-form select {
+	display: block;
+	width: 100%;
+	margin-top: 6px;
+	font: inherit;
+	color: var(--color-bg);
+	background: transparent;
+	border: 1.5px solid color-mix(in srgb, var(--color-bg) 40%, transparent);
+	border-radius: var(--radius-input);
+	padding: 14px 16px;
+	min-height: 52px;
+}
+
+.ticket-card .booking-form select option {
+	color: var(--color-ink);
+}
+
+.ticket-card .form-row {
+	display: grid;
+	grid-template-columns: 1fr 130px;
+	gap: 16px;
+}
+
+.ticket-card .form-error {
+	color: var(--color-coral);
+	min-height: 22px;
+	font-size: 15px;
+	margin: 0 0 8px;
+}
+
+.ticket-card .booking-success {
+	display: none;
+}
+
+.ticket-card .booking-success p {
+	margin: 0 0 12px;
+	max-width: 26em;
+}
+
+.ticket-card .ticket-stub {
+	position: relative;
+	padding: clamp(24px, 4vw, 44px) 28px;
+	border-left: 2px dashed color-mix(in srgb, var(--color-bg) 35%, transparent);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 24px;
+	transition: transform 0.8s cubic-bezier(0.5, 0, 0.7, 0.4), opacity 0.8s;
+}
+
+.ticket-card .ticket-stub::before,
+.ticket-card .ticket-stub::after {
+	content: "";
+	position: absolute;
+	left: -14px;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: var(--color-bg);
+}
+
+.ticket-card .ticket-stub::before {
+	top: -13px;
+}
+
+.ticket-card .ticket-stub::after {
+	bottom: -13px;
+}
+
+.ticket-card .ticket-stub.is-torn {
+	transform: translate(70px, 50px) rotate(9deg);
+	opacity: 0;
+	pointer-events: none;
+}
+
+.ticket-card .ticket-stub small {
+	display: block;
+	opacity: 0.7;
+	font-size: 14px;
+}
+
+.ticket-card .ticket-stub b {
+	font: 800 52px/1 Unbounded, sans-serif;
+	letter-spacing: -0.04em;
+	color: var(--color-lime);
+}
+
+/* ==========================================================================
+   9. FAQ
+   ========================================================================== */
+
+.faq {
+	max-width: 760px;
+	margin-top: 40px;
+}
+
+.faq details {
+	border-top: 1px solid var(--color-line);
+}
+
+.faq details:last-child {
+	border-bottom: 1px solid var(--color-line);
+}
+
+.faq summary {
+	cursor: pointer;
+	list-style: none;
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 22px 0;
+	font-weight: 600;
+	font-size: 18px;
+}
+
+.faq summary::-webkit-details-marker {
+	display: none;
+}
+
+.faq summary::after {
+	content: "+";
+	font: 800 24px/1 Unbounded, sans-serif;
+	color: var(--color-violet);
+	transition: transform 0.2s;
+}
+
+.faq details[open] summary::after {
+	transform: rotate(45deg);
+}
+
+.faq details p {
+	margin: 0 0 22px;
+	color: var(--color-muted);
+	max-width: 34em;
+}
+
+/* ==========================================================================
+   10. Footer
+   ========================================================================== */
+
+footer {
+	padding: 40px 0 120px;
+	color: var(--color-muted);
+	font-size: 14px;
+	border-top: 1px solid var(--color-line);
+}
+
+/* ==========================================================================
+   11. Bottom bar (sticky, mobile)
+   ========================================================================== */
+
+.bottom-bar {
+	display: none;
+}
+
+@media (max-width: 820px) {
+	.hero,
+	.schedule-grid,
+	.teacher {
+		grid-template-columns: 1fr;
+	}
+
+	.hero-art {
+		max-width: 300px;
+		justify-self: start;
+	}
+
+	.ticket-card {
+		grid-template-columns: 1fr;
+	}
+
+	.ticket-stub {
+		border-left: 0;
+		border-top: 2px dashed color-mix(in srgb, var(--color-bg) 35%, transparent);
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.ticket-stub::before,
+	.ticket-stub::after {
+		top: -13px;
+		bottom: auto;
+		left: auto;
+	}
+
+	.ticket-stub::before {
+		left: -13px;
+	}
+
+	.ticket-stub::after {
+		right: -13px;
+	}
+
+	.ticket-stub.is-torn {
+		transform: translate(0, 60px) rotate(4deg);
+	}
+
+	.form-row {
+		grid-template-columns: 1fr;
+	}
+
+	.bottom-bar {
+		display: flex;
+		position: fixed;
+		inset-inline: 0;
+		bottom: 0;
+		z-index: 5;
+		justify-content: space-between;
+		align-items: center;
+		gap: 12px;
+		padding: 12px 20px calc(12px + env(safe-area-inset-bottom, 0));
+		background: var(--color-bg);
+		border-top: 1px solid var(--color-line);
+		transform: translateY(110%);
+		transition: transform 0.25s;
+	}
+
+	.bottom-bar.is-visible {
+		transform: none;
+	}
+
+	.bottom-bar span {
+		font-size: 15px;
+		color: var(--color-muted);
+	}
+}
+
+/* ==========================================================================
+   12. Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	html {
+		scroll-behavior: auto;
+	}
+}
