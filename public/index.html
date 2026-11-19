@@ -32,21 +32,25 @@
 							class="headline__layer headline__layer--offset"
 							aria-hidden="true"
 						>
-							<span class="parallax__text">Carve.
-							<br />
-							Roll.
-							<br />
-							Print.</span>
+							<span class="parallax__text">
+								Carve.
+								<br />
+								Roll.
+								<br />
+								Print.
+							</span>
 						</span>
 						<span
 							class="headline__layer headline__layer--front"
 							aria-hidden="true"
 						>
-							<span class="parallax__text">Carve.
-							<br />
-							Roll.
-							<br />
-							Print.</span>
+							<span class="parallax__text">
+								Carve.
+								<br />
+								Roll.
+								<br />
+								Print.
+							</span>
 						</span>
 					</h1>
 					<p class="lead">
@@ -271,7 +275,7 @@
 
 		<section class="booking" id="seat">
 			<div class="container">
-				<h2>Hold a seat.</h2>
+				<h2 class="ticket-section">Hold a seat.</h2>
 				<div class="ticket-card" id="ticketCard">
 					<div class="booking-form">
 						<h2>Twelve seats. One weekend.</h2>
@@ -466,33 +470,38 @@
 					!x.isIntersecting && x.boundingClientRect.top < 0,
 				),
 			).observe(hb);
-		/* Hero parallax */
-		(function () {
-			const hero = document.querySelector(".hero");
-			if (!hero) return;
-			const root = document.documentElement;
-			const maxMove = 28;
-			const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+			/* Hero parallax */
+			(function () {
+				const hero = document.querySelector(".hero");
+				if (!hero) return;
+				const root = document.documentElement;
+				const maxMove = 28;
+				const reduced = window.matchMedia(
+					"(prefers-reduced-motion: reduce)",
+				);
 
-			function move(e) {
-				if (reduced.matches) return;
-				const rect = hero.getBoundingClientRect();
-				const cx = e.clientX - rect.left - rect.width / 2;
-				const cy = e.clientY - rect.top - rect.height / 2;
-				const nx = Math.max(-1, Math.min(1, cx / (rect.width / 2)));
-				const ny = Math.max(-1, Math.min(1, cy / (rect.height / 2)));
-				root.style.setProperty("--parallax-x", nx * maxMove + "px");
-				root.style.setProperty("--parallax-y", ny * maxMove + "px");
-			}
+				function move(e) {
+					if (reduced.matches) return;
+					const rect = hero.getBoundingClientRect();
+					const cx = e.clientX - rect.left - rect.width / 2;
+					const cy = e.clientY - rect.top - rect.height / 2;
+					const nx = Math.max(-1, Math.min(1, cx / (rect.width / 2)));
+					const ny = Math.max(
+						-1,
+						Math.min(1, cy / (rect.height / 2)),
+					);
+					root.style.setProperty("--parallax-x", nx * maxMove + "px");
+					root.style.setProperty("--parallax-y", ny * maxMove + "px");
+				}
 
-			function reset() {
-				root.style.setProperty("--parallax-x", "0");
-				root.style.setProperty("--parallax-y", "0");
-			}
+				function reset() {
+					root.style.setProperty("--parallax-x", "0");
+					root.style.setProperty("--parallax-y", "0");
+				}
 
-			hero.addEventListener("mousemove", move);
-			hero.addEventListener("mouseleave", reset);
-		})();
-	</script>
+				hero.addEventListener("mousemove", move);
+				hero.addEventListener("mouseleave", reset);
+			})();
+		</script>
 	</body>
 </html>
