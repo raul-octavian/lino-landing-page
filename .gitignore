@@ -1,0 +1,38 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+.pnpm-store/
+
+# Build / output directories (if a build step is added later)
+dist/
+build/
+.out/
+.cache/
+.next/
+public/assets/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Misc
+*.zip
+*.tar.gz
