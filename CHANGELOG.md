@@ -88,6 +88,23 @@ and remove the two lines from the main `:root`.
 
 ---
 
+### Extracted inline script to external JS file
+**Files:** `linoWeekendWorkshop.html` → `script.js`  
+**What:** The inline `<script>` was moved to a separate `script.js` file for cleaner
+separation of concerns. The HTML now includes:
+
+```html
+<script src="./script.js"></script>
+```
+
+**Files changed:**
+- `public/index.html` — removed inline `<script>` block, added `<script src="./script.js"></script>`
+- `public/script.js` — extracted inline script (seat booking logic, form handling, parallax, intersection observer)
+
+**To undo:** Move the script content back into the HTML `<script>` tag.
+
+---
+
 ### Renamed all classes (HTML + CSS + JS)
 | Old | New |
 |---|---|
