@@ -19,9 +19,6 @@
 
 	--max-width: 1120px;
 
-	--parallax-x: 0;
-	--parallax-y: 0;
-
 	padding-top: env(safe-area-inset-top, 0);
 	padding-bottom: env(safe-area-inset-bottom, 0);
 }
@@ -276,28 +273,34 @@ h2 {
 }
 
 /* ==========================================================================
-   5b. Hero parallax (mouse-driven)
+   5b. Hero parallax (CSS-only, hover-driven)
    ========================================================================== */
 
 .hero .parallax__text {
 	display: inline-block;
-	transform: translate(calc(var(--parallax-x) * 0.1), calc(var(--parallax-y) * 0.1));
-	transition: transform 0.1s ease-out;
+	transition: transform 0.3s cubic-bezier(0.2, 1.25, 0.3, 1);
 	will-change: transform;
 }
 
-.hero .headline__layer--offset .parallax__text {
-	transform: translate(calc(var(--parallax-x) * 0.12), calc(var(--parallax-y) * 0.12));
+.hero:hover .parallax__text {
+	transform: translate(10px, 8px);
 }
 
-.hero .headline__layer--front .parallax__text {
-	transform: translate(calc(var(--parallax-x) * -0.06), calc(var(--parallax-y) * -0.06));
+.hero:hover .headline__layer--offset .parallax__text {
+	transform: translate(14px, 12px);
+}
+
+.hero:hover .headline__layer--front .parallax__text {
+	transform: translate(-8px, -6px);
 }
 
 .hero .hero-art {
-	transform: translate(calc(var(--parallax-x) * 0.04), calc(var(--parallax-y) * 0.04));
-	transition: transform 0.1s ease-out;
+	transition: transform 0.3s cubic-bezier(0.2, 1.25, 0.3, 1);
 	will-change: transform;
+}
+
+.hero:hover .hero-art {
+	transform: translate(4px, 3px);
 }
 
 /* .hero .hero-paper is intentionally excluded from parallax translate:
@@ -405,9 +408,6 @@ h2 {
 /* ==========================================================================
    8. Booking & ticket
    ========================================================================== */
-.ticket-section {
-	margin-top: 64px;
-}
 
 .ticket-card {
 	position: relative;
@@ -475,6 +475,10 @@ h2 {
 	margin: 0 0 8px;
 }
 
+.ticket-card .booking-form .button {
+	box-shadow: 4px 4px 0 var(--color-lime);
+}
+
 .ticket-card .booking-success {
 	display: none;
 }
@@ -535,9 +539,7 @@ h2 {
 /* ==========================================================================
    9. FAQ
    ========================================================================== */
-.faq-section {
-	margin-top: 64px;
-}
+
 .faq {
 	max-width: 760px;
 	margin-top: 40px;

@@ -1,87 +1,105 @@
-const T = 12;
-let booked = 8;
-const tubes = [...document.querySelectorAll("[data-tube]")],
-lefts = [...document.querySelectorAll("[data-left]")];
-function paint() {
-const l = T - booked;
-tubes.forEach((t) => {
-t.innerHTML = Array.from(
-{ length: T },
-(_, i) =>
-`<i class="seat ${i >= booked ? "seat--empty" : ""}"></i>`,
-).join("");
-});
-lefts.forEach(
-(s) =>
-(s.textContent =
-l > 0
-? `${l} of ${T} seats left`
-: "Fully booked. Join the waitlist."),
-);
-document.getElementById("submitButton").textContent =
-l > 0 ? "Hold my seat" : "Join the waitlist";
-document.getElementById("seatNumber").textContent = String(
-Math.min(booked + 1, T),
-).padStart(2, "0");
-const q = document.getElementById("seatsSelect");
-q.innerHTML =
-l >= 2
-? "<option>1</option><option>2</option>"
-: "<option>1</option>";
+const TOTAL_SEATS = 12;
+let bookedCount = 8;
+
+const seatIndicatorTubes = [...document.querySelectorAll("[data-tube]")];
+const seatLeftElements = [...document.querySelectorAll("[data-left]")];
+
+function updateSeatDisplay() {
+	const seatsLeft = TOTAL_SEATS - bookedCount;
+
+	seatIndicatorTubes.forEach((tube) => {
+		tube.innerHTML = Array.from(
+			{ length: TOTAL_SEATS },
+			(_, i) =>
+				`<i class="seat ${i >= bookedCount ? "seat--empty" : ""}"></i>`,
+		).join("");
+	});
+
+	seatLeftElements.forEach((el) => {
+		el.textContent =
+			seatsLeft > 0
+				? `${seatsLeft} of ${TOTAL_SEATS} seats left`
+				: "Fully booked. Join the waitlist.";
+	});
+
+	document.getElementById("submitButton").textContent =
+		seatsLeft > 0 ? "Hold my seat" : "Join the waitlist";
+
+	document.getElementById("seatNumber").textContent = String(
+		Math.min(bookedCount + 1, TOTAL_SEATS),
+	).padStart(2, "0");
+
+	const seatsSelect = document.getElementById("seatsSelect");
+	seatsSelect.innerHTML =
+		seatsLeft >= 2
+			? "<option>1</option><option>2</option>"
+			: "<option>1</option>";
 }
-paint();
-const headline = document.getElementById("headline");
+
+updateSeatDisplay();
+
+const headlineElement = document.getElementById("headline");
 requestAnimationFrame(() =>
-setTimeout(() => headline.classList.add("is-revealed"), 250),
+	setTimeout(() => headlineElement.classList.add("is-revealed"), 250),
 );
-document
-.getElementById("bookingForm")
-.addEventListener("submit", (e) => {
-e.preventDefault();
-const n = document.getElementById("nameInput").value.trim(),
-m = document.getElementById("emailInput").value.trim(),
-err = document.getElementById("formError");
-if (!n) {
-err.textContent =
-"Add your name so we can put it on the seat.";
-return;
-}
-if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(m)) {
-err.textContent = "That email doesn’t look right yet.";
-return;
-}
-err.textContent = "";
-const l = T - booked,
-q = Math.min(
-+document.getElementById("seatsSelect").value,
-Math.max(l, 1),
-),
-wait = l <= 0;
-if (!wait) booked += q;
-const no = String(Math.min(booked, T)).padStart(2, "0");
-document
-.getElementById("ticketStub")
-.classList.add("is-torn");
-setTimeout(() => {
-document.getElementById("successTitle").textContent =
-wait
-? "You’re on the list."
-: `Seat ${no} is yours, ${n.split(" ")[0]}.`;
-document.getElementById("successText").textContent =
-wait
-? `We’ll email ${m} the moment a seat opens.`
-: `A confirmation is on its way to ${m}. Bring an apron and an idea.`;
-document
-.getElementById("ticketCard")
-.classList.add("is-submitted");
-paint();
-}, 650);
+
+const bookingFormElement = document.getElementById("bookingForm");
+bookingFormElement.addEventListener("submit", (event) => {
+	event.preventDefault();
+
+	const userName = document.getElementById("nameInput").value.trim();
+	const userEmail = document.getElementById("emailInput").value.trim();
+	const errorElement = document.getElementById("formError");
+
+	if (!userName) {
+		errorElement.textContent =
+			"Add your name so we can put it on the seat.";
+		return;
+	}
+
+	if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(userEmail)) {
+		errorElement.textContent = "That email doesn’t look right yet.";
+		return;
+	}
+
+	errorElement.textContent = "";
+
+	const seatsLeft = TOTAL_SEATS - bookedCount;
+	const requestedSeats = Math.min(
+		+document.getElementById("seatsSelect").value,
+		Math.max(seatsLeft, 1),
+	);
+	const isWaitlist = seatsLeft <= 0;
+
+	if (!isWaitlist) {
+		bookedCount += requestedSeats;
+	}
+
+	const assignedSeat = String(Math.min(bookedCount, TOTAL_SEATS)).padStart(
+		2,
+		"0",
+	);
+
+	document.getElementById("ticketStub").classList.add("is-torn");
+
+	setTimeout(() => {
+		document.getElementById("successTitle").textContent = isWaitlist
+			? "You’re on the list."
+			: `Seat ${assignedSeat} is yours, ${userName.split(" ")[0]}.`;
+		document.getElementById("successText").textContent = isWaitlist
+			? `We’ll email ${userEmail} the moment a seat opens.`
+			: `A confirmation is on its way to ${userEmail}. Bring an apron and an idea.`;
+		document.getElementById("ticketCard").classList.add("is-submitted");
+		updateSeatDisplay();
+	}, 650);
 });
-const bar = document.getElementById("bottomBar"),
-hb = document.getElementById("ctaButton");
-new IntersectionObserver(([x]) =>
-bar.classList.toggle(
-"is-visible",
-!x.isIntersecting && x.boundingClientRect.top < 0,
-),
-).observe(hb);
+
+const bottomBarElement = document.getElementById("bottomBar");
+const ctaButtonElement = document.getElementById("ctaButton");
+
+new IntersectionObserver(([entry]) =>
+	bottomBarElement.classList.toggle(
+		"is-visible",
+		!entry.isIntersecting && entry.boundingClientRect.top < 0,
+	),
+).observe(ctaButtonElement);

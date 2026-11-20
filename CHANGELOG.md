@@ -88,20 +88,32 @@ and remove the two lines from the main `:root`.
 
 ---
 
-### Extracted inline script to external JS file
-**Files:** `linoWeekendWorkshop.html` → `script.js`  
-**What:** The inline `<script>` was moved to a separate `script.js` file for cleaner
-separation of concerns. The HTML now includes:
+### Refactored script.js with meaningful variable names
+**File:** `public/script.js`  
+**What:** Extracted inline script into external `script.js` with clear, descriptive variable names:
+- `T` → `TOTAL_SEATS` (constant)
+- `booked` → `bookedCount`
+- `tubes` → `seatIndicatorTubes`
+- `lefts` → `seatLeftElements`
+- `l` → `seatsLeft`
+- `q` → `requestedSeats`
+- `wait` → `isWaitlist`
+- `n` → `userName`
+- `m` → `userEmail`
+- `err` → `errorElement`
+- `no` → `assignedSeat`
+- `bar` → `bottomBarElement`
+- `hb` → `ctaButtonElement`
 
-```html
-<script src="./script.js"></script>
-```
+**To undo:** Revert to the previous commit's shorter variable names.
 
-**Files changed:**
-- `public/index.html` — removed inline `<script>` block, added `<script src="./script.js"></script>`
-- `public/script.js` — extracted inline script (seat booking logic, form handling, parallax, intersection observer)
+---
 
-**To undo:** Move the script content back into the HTML `<script>` tag.
+### Restored public/index.html with full HTML structure
+**File:** `public/index.html`  
+**What:** Rebuilt the HTML file from scratch after it was corrupted (contained raw JS instead of markup). Contains complete document structure with all CSS classes matching `styles.css` and all JS element IDs matching `script.js`. Links to external `./script.js`.
+
+**To undo:** Restore from git history.
 
 ---
 
