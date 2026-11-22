@@ -90,7 +90,7 @@ h2 {
 	outline-offset: 3px;
 }
 .section-header {
-	margin-top: 32px
+	margin-top: 10vh
 }
 
 /* ==========================================================================
@@ -343,7 +343,7 @@ h2 {
 	display: grid;
 	grid-template-columns: 1.2fr 1fr;
 	gap: clamp(32px, 6vw, 80px);
-	align-items: end;
+	align-items: start;
 }
 
 .teacher blockquote {
@@ -504,6 +504,9 @@ h2 {
 .faq {
 	max-width: 760px;
 	margin-top: 40px;
+}
+.faq-container {
+	margin-top: 10vh;
 }
 
 .faq details {
