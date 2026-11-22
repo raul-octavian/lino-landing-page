@@ -89,6 +89,9 @@ h2 {
 	outline: 3px solid var(--color-coral);
 	outline-offset: 3px;
 }
+.section-header {
+	margin-top: 32px
+}
 
 /* ==========================================================================
    3. Header
@@ -272,49 +275,7 @@ h2 {
 	}
 }
 
-/* ==========================================================================
-   5b. Hero parallax (CSS-only, hover-driven)
-   ========================================================================== */
 
-.hero .parallax__text {
-	display: inline-block;
-	transition: transform 0.3s cubic-bezier(0.2, 1.25, 0.3, 1);
-	will-change: transform;
-}
-
-.hero:hover .parallax__text {
-	transform: translate(10px, 8px);
-}
-
-.hero:hover .headline__layer--offset .parallax__text {
-	transform: translate(14px, 12px);
-}
-
-.hero:hover .headline__layer--front .parallax__text {
-	transform: translate(-8px, -6px);
-}
-
-.hero .hero-art {
-	transition: transform 0.3s cubic-bezier(0.2, 1.25, 0.3, 1);
-	will-change: transform;
-}
-
-.hero:hover .hero-art {
-	transform: translate(4px, 3px);
-}
-
-/* .hero .hero-paper is intentionally excluded from parallax translate:
-   the stamp animation (section 5) already owns its `transform` property.
-   Adding parallax `translate` here would override the animation's final
-   rotate(3deg) state. */
-
-@media (prefers-reduced-motion: reduce) {
-	.hero .parallax__text,
-	.hero .hero-art {
-		transform: none !important;
-		transition: none !important;
-	}
-}
 
 /* ==========================================================================
    6. Schedule

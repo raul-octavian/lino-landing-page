@@ -103,3 +103,4 @@ new IntersectionObserver(([entry]) =>
 		!entry.isIntersecting && entry.boundingClientRect.top < 0,
 	),
 ).observe(ctaButtonElement);
+
